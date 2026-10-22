@@ -1,0 +1,14 @@
+{
+  "name": "shopping-api",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch index.js"
+  },
+  "allowScripts": {
+    "better-sqlite3@13.0.3": true
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "express": "^5.3.0"
+  }
+}
