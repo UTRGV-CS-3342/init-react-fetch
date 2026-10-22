@@ -1,15 +1,12 @@
 {
-  "name": "shopping-03-react-router",
+  "name": "shopping-04-spa",
   "type": "module",
   "scripts": {
     "dev": "react-router dev --port 8080",
-    "build": "react-router build",
-    "start": "react-router-serve ./build/server/index.js"
+    "build": "react-router build"
   },
   "dependencies": {
     "@react-router/node": "^8.3.1",
-    "@react-router/serve": "^8.3.1",
-    "better-sqlite3": "^13.0.3",
     "isbot": "^5",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -18,8 +15,5 @@
   "devDependencies": {
     "@react-router/dev": "^8.3.1",
     "vite": "^8.2.2"
-  },
-  "allowScripts": {
-    "better-sqlite3@13.0.3": true
   }
 }

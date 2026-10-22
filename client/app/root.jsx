@@ -1,19 +1,5 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 
-const FAKE_LATENCY_MS = 500;
-function sleep(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-// specially named export middleware runs on the server before the loaders/actions of every route below it
-// (root is above everything, so this delays every request once)
-export const middleware = [
-	async (_args, next) => {
-		await sleep(FAKE_LATENCY_MS);
-		return next();
-	},
-];
-
 // every URL subdir can have a specially named Layout wrapper
 export function Layout({ children }) {
 	return (

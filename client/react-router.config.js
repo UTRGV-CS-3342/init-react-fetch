@@ -1,5 +1,6 @@
 export default {
-	// Render on the server. Turn this off and the same app becomes a pure SPA --
-	// one of the ablations worth doing live.
-	ssr: true,
+	// No server rendering: a single-page app. The browser gets one empty page plus the
+	// JavaScript, and every route fetches its own data from the API server.
+	// Server-only route exports (loader, action, middleware) are now build errors.
+	ssr: false,
 };

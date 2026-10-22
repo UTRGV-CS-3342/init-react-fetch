@@ -3,6 +3,7 @@
 // Run this in its own terminal: `cd server`, then `npm run dev`.
 
 import express from 'express';
+import cors from 'cors';
 import { getItems, getItem, getReviews, addReview } from './db.js';
 
 const PORT = 3000;
@@ -12,6 +13,10 @@ const FAKE_LATENCY_MS = 500;
 
 const app = express();
 
+// The browser app comes from a different origin (port 8080), so the browser won't let it
+// read our replies unless we say it may. A JSON POST also sends a "preflight" OPTIONS request
+// first to ask permission; cors() answers that here, before the fake latency below.
+app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(express.json());
 app.use((req, res, next) => setTimeout(next, FAKE_LATENCY_MS));
 
