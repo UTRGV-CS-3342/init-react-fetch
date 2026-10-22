@@ -11,6 +11,10 @@ export default function ItemsRoute() {
 
 	// runs after the first render, not during it. [] means never again.
 	useEffect(() => {
+		// set by the cleanup below: this render's answer is no longer wanted
+		// (in development, React runs every effect twice on purpose to catch exactly this)
+		let ignore = false;
+
 		// the effect function itself can't be async (it may only return a cleanup function),
 		// so the awaiting happens in an async function defined and called at once (an IIFE)
 		(async function load() {
@@ -18,11 +22,15 @@ export default function ItemsRoute() {
 				const response = await fetch(`${API_URL}/api/items`);
 				if (!response.ok) throw new Error(`HTTP ${response.status}`);
 				const body = await response.json();
-				setData(body);
+				if (!ignore) setData(body);
 			} catch {
-				setError('Could not load the items.');
+				if (!ignore) setError('Could not load the items.');
 			}
 		})();
+
+		return () => {
+			ignore = true;
+		};
 	}, []);
 
 	if (error) return <p className="mt-4">{error}</p>;

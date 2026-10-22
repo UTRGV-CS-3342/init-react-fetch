@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import { API_URL } from './api.js';
 
 function Review({ review }) {
 	return (
@@ -15,12 +16,8 @@ function Review({ review }) {
 	);
 }
 
-export function ItemView({ item, reviews, errors, author, content }) {
-	const failed = errors?.length > 0;
-	const [blank, setBlank] = useState({
-		author: failed && !author?.trim(),
-		content: failed && !content?.trim(),
-	});
+export function ItemView({ item, reviews }) {
+	const [blank, setBlank] = useState({ author: false, content: false });
 
 	function checkBlank(event) {
 		const { name, value } = event.target;
@@ -58,7 +55,7 @@ export function ItemView({ item, reviews, errors, author, content }) {
 		}
 
 		try {
-			const response = await fetch(`/api/item_view/${item.id}/reviews`, {
+			const response = await fetch(`${API_URL}/api/item_view/${item.id}/reviews`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ author, content }),
@@ -109,11 +106,9 @@ export function ItemView({ item, reviews, errors, author, content }) {
 	
 					<div className="card w-100 mt-3">
 						<div className="card-body">
-							{/* No action attribute needed -- a form posts to the URL it is on.
-							    One URL, two methods: GET renders it, POST changes it. */}
-							{/* onSubmit only runs once the page is hydrated; before that (or with JS off)
-							    the plain POST to the route action still works */}
-							<form method="POST" onSubmit={submitReview}>
+							{/* No method: there's no page route to POST to anymore. Without JavaScript,
+							    nothing on this site works at all. */}
+							<form onSubmit={submitReview}>
 								{messages.length > 0 && (
 									<div className="alert alert-danger">
 										<ul className="mb-0">
@@ -125,24 +120,18 @@ export function ItemView({ item, reviews, errors, author, content }) {
 								)}
 								<div className="form-group">
 									<label>Add your review!</label>
-									{/* defaultValue, not value: with no JavaScript on the page every
-									    input is uncontrolled. React only sets the starting text. */}
 									<input
 										className="form-control mb-1"
 										placeholder="Name"
 										name="author"
-										defaultValue={author}
 										onBlur={checkBlank}
 									/>
 								</div>
 								<div className="form-group">
-									{/* In HTML a textarea's value is its content. In React it is
-									    a prop -- children here would be an error. */}
 									<textarea
 										className="form-control mb-1"
 										placeholder="Review"
 										name="content"
-										defaultValue={content}
 										onBlur={checkBlank}
 									/>
 								</div>
